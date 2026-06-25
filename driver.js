@@ -18,23 +18,34 @@ function runInWorker() {
 }
 
 async function runBenchmark() {
-  var results = await runAll();
+  var results = await runAll(null, { recordFirstQuery: true });
   var workerResults = await runInWorker();
   for (var i = 0; i < workerResults.length; i++) {
     var wr = workerResults[i];
-    results.push({ name: "worker-" + wr.name, duration: wr.duration });
+    results.push({ name: "worker-" + wr.name, values: wr.values });
   }
   report(results);
 }
 
+function median(values) {
+  var s = values.slice().sort((a, b) => a - b);
+  var mid = Math.floor(s.length / 2);
+  return s.length % 2 ? s[mid] : (s[mid - 1] + s[mid]) / 2;
+}
+
+// Standalone view only: a readable summary per subtest. The raptor payload
+// below carries the raw values, which the support script turns into the full
+// statistics.
 function report(results) {
   document.getElementById("in-progress").style.display = "none";
-  var str = "<table><thead><tr><td>Subtest</td><td>Per-query time (ms)</td>" +
-            "</tr></thead>";
+  var str = "<table><thead><tr><td>Subtest</td><td>cold</td><td>min</td>" +
+            "<td>median</td><td>max</td></tr></thead>";
   for (var i = 0; i < results.length; i++) {
-    var r = results[i];
-    str += "<tr><td>" + r.name + "</td><td>" + r.duration.toFixed(3) +
-           "</td></tr>";
+    var v = results[i].values;
+    str += "<tr><td>" + results[i].name + "</td><td>" + v[0].toFixed(3) +
+           "</td><td>" + Math.min.apply(null, v).toFixed(3) + "</td><td>" +
+           median(v).toFixed(3) + "</td><td>" +
+           Math.max.apply(null, v).toFixed(3) + "</td></tr>";
   }
   str += "</table>";
   document.getElementById("results").innerHTML = str;

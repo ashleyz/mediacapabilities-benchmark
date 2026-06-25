@@ -2,10 +2,14 @@
 
 Benchmark for the MediaCapabilities API (`decodingInfo()` / `encodingInfo()`).
 
+It records individual `decodingInfo()` / `encodingInfo()` query latencies in
+milliseconds (lower is better). It measures API query latency, not decode or
+encode throughput.
+
 ## Run
 
 Serve the directory (e.g. `python3 -m http.server`) and open `index.html`.
-Then, click "Run all". Times are mean per-query milliseconds, lower is better.
+Then, click "Run all".
 
 ## License
 
