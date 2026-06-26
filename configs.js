@@ -15,6 +15,7 @@ var OPUS_WEBM = 'audio/webm; codecs="opus"';
 var MP3_MP4 = 'audio/mp4; codecs="mp3"';
 var FLAC_MP4 = 'audio/mp4; codecs="flac"';
 var VORBIS_WEBM = 'audio/webm; codecs="vorbis"';
+var WAV_PCM = 'audio/wav; codecs="1"';
 
 registerTestCase({
   name: "decode-webrtc-video-vp8",
@@ -171,6 +172,11 @@ registerTestCase({
   name: "decode-file-audio-vorbis",
   kind: "decode",
   config: { type: "file", audio: { contentType: VORBIS_WEBM } },
+});
+registerTestCase({
+  name: "decode-file-audio-pcm",
+  kind: "decode",
+  config: { type: "file", audio: { contentType: WAV_PCM } },
 });
 registerTestCase({
   name: "decode-media-source-video-avc",
