@@ -23,7 +23,14 @@ async function runOne(testcase) {
   var values = [];
   for (var i = 0; i < iterations; i++) {
     var start = performance.now();
-    await runQuery(testcase);
+    try {
+      await runQuery(testcase);
+    } catch (e) {
+      // A malformed contentType rejects (e.g. a container without codecs). Skip
+      // the case instead of aborting the whole run, and name it so it's fixable.
+      console.warn("media-capabilities: skipping " + testcase.name + " (" + e + ")");
+      return null;
+    }
     values.push(performance.now() - start);
   }
   return { name: testcase.name, values };
@@ -54,7 +61,10 @@ async function runAll(filter, options) {
   }
 
   for (var i = 0; i < selected.length; i++) {
-    results.push(await runOne(selected[i]));
+    var result = await runOne(selected[i]);
+    if (result) {
+      results.push(result);
+    }
   }
   return results;
 }

@@ -12,6 +12,9 @@ var AV1_MP4 = 'video/mp4; codecs="av01.0.08M.08"';
 var HEVC_MP4 = 'video/mp4; codecs="hvc1.1.6.L120.B0"';
 var AAC_MP4 = 'audio/mp4; codecs="mp4a.40.2"';
 var OPUS_WEBM = 'audio/webm; codecs="opus"';
+var MP3_MP4 = 'audio/mp4; codecs="mp3"';
+var FLAC_MP4 = 'audio/mp4; codecs="flac"';
+var VORBIS_WEBM = 'audio/webm; codecs="vorbis"';
 
 registerTestCase({
   name: "decode-webrtc-video-vp8",
@@ -155,6 +158,21 @@ registerTestCase({
   config: { type: "file", audio: { contentType: OPUS_WEBM } },
 });
 registerTestCase({
+  name: "decode-file-audio-mp3",
+  kind: "decode",
+  config: { type: "file", audio: { contentType: MP3_MP4 } },
+});
+registerTestCase({
+  name: "decode-file-audio-flac",
+  kind: "decode",
+  config: { type: "file", audio: { contentType: FLAC_MP4 } },
+});
+registerTestCase({
+  name: "decode-file-audio-vorbis",
+  kind: "decode",
+  config: { type: "file", audio: { contentType: VORBIS_WEBM } },
+});
+registerTestCase({
   name: "decode-media-source-video-avc",
   kind: "decode",
   iterations: 10,
@@ -193,4 +211,19 @@ registerTestCase({
   name: "decode-media-source-audio-opus",
   kind: "decode",
   config: { type: "media-source", audio: { contentType: OPUS_WEBM } },
+});
+registerTestCase({
+  name: "decode-media-source-audio-mp3",
+  kind: "decode",
+  config: { type: "media-source", audio: { contentType: MP3_MP4 } },
+});
+registerTestCase({
+  name: "decode-media-source-audio-flac",
+  kind: "decode",
+  config: { type: "media-source", audio: { contentType: FLAC_MP4 } },
+});
+registerTestCase({
+  name: "decode-media-source-audio-vorbis",
+  kind: "decode",
+  config: { type: "media-source", audio: { contentType: VORBIS_WEBM } },
 });
